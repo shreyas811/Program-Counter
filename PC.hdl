@@ -1,0 +1,29 @@
+
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    
+Register(in= in ,load= load ,out= RO );
+DMux4Way(in= RO ,sel[1] = inc, sel[2] = reset ,a= DA ,b= DB ,c= DC ,d= DD );
+
+Not16(in= DB ,out= notDB );
+And16(a= DB ,b=notDB ,out= z );
+
+Inc16(in= DC ,out= DCI );
+And16(a= DD ,b=z ,out= ze );
+
+Mux4Way16(a= DA ,b= z ,c= DCI ,d= ze ,sel[1] = inc, sel[0] = reset ,out= out );
+
+
+}
