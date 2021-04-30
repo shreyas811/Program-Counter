@@ -8,7 +8,7 @@
  * else                    out[t+1] = out[t]
  */
 
-CHIP PCC {
+CHIP PC {
     IN in[16],load,inc,reset;
     OUT out[16];
 
