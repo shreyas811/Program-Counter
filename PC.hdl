@@ -1,0 +1,73 @@
+
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PCC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+Inc16(in= F  ,out= FF );
+Not16(in= F ,out= notF );
+And16(a= F ,b= notF ,out= z );
+Mux8Way16(a= in ,b= z, c= FF ,d= z  ,e= in ,f= z ,g= in ,h= z ,sel[2] = load, sel[1] = inc, sel[0] = reset ,out= M );
+Register(in= M ,load= true ,out= out, out = F );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
